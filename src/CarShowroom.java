@@ -17,13 +17,13 @@ public class CarShowroom {
         try {
             lock.lock();
             System.out.println(Thread.currentThread().getName() + " зашел в автосалон");
-            while (cars.isEmpty()) {
+            while (getCars().isEmpty()) {
                 System.out.println("Машин нет");
                 condition.await();
             }
             Thread.sleep(SELL_TIME);
             System.out.println(Thread.currentThread().getName() + " уехал на новеньком авто");
-            cars.remove(0);
+            getCars().remove(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -35,7 +35,7 @@ public class CarShowroom {
         for (int i = 0; i < CARS; i++) {
             try {
                 Thread.sleep(PRODUCTION_TIME);
-                cars.add(new Car());
+                getCars().add(new Car());
                 System.out.println("Производитель " + Thread.currentThread().getName() + " выпустил 1 авто");
                 lock.lock();
                 condition.signal();
@@ -52,5 +52,10 @@ public class CarShowroom {
             this.sellCar();
         }
     }
+
+    List<Car> getCars() {
+        return cars;
+    }
 }
+
 
