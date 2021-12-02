@@ -35,9 +35,9 @@ public class CarShowroom {
         for (int i = 0; i < CARS; i++) {
             try {
                 Thread.sleep(PRODUCTION_TIME);
+                lock.lock();
                 getCars().add(new Car());
                 System.out.println("Производитель " + Thread.currentThread().getName() + " выпустил 1 авто");
-                lock.lock();
                 condition.signal();
             } catch (InterruptedException e) {
                 e.printStackTrace();
